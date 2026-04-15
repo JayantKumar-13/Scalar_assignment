@@ -1073,7 +1073,61 @@ Documentation generated for this repository:
 - [Project Artifact HTML](docs/project-artifact.html)
 - [Project Artifact PDF](docs/project-artifact.pdf)
 
-## 17. Summary
+## 17. Deployment
+
+Since you have deployed the project, here are general steps for deploying a full-stack application like this:
+
+### Frontend Deployment
+
+The frontend is built with Vite and can be deployed as static files.
+
+1. Build the frontend:
+   ```bash
+   npm run build
+   ```
+   This creates a `dist` folder in the `client` directory.
+
+2. Deploy the `client/dist` folder to a static hosting service like:
+   - Vercel
+   - Netlify
+   - GitHub Pages
+   - AWS S3 + CloudFront
+
+3. Update the `VITE_API_BASE_URL` in the client environment to point to your deployed backend.
+
+### Backend Deployment
+
+The backend is an Express.js application.
+
+1. Ensure your production environment has Node.js installed.
+
+2. Set up environment variables in your deployment platform (similar to `.env` but using platform-specific config).
+
+3. Deploy to a platform that supports Node.js:
+   - Heroku
+   - Render
+   - Railway
+   - DigitalOcean App Platform
+   - AWS EC2/EB
+
+4. For the database, use a cloud MySQL service like:
+   - PlanetScale
+   - AWS RDS
+   - Google Cloud SQL
+   - Azure Database for MySQL
+
+5. Run database migrations and seeders in production if needed.
+
+### Example Deployment Configuration
+
+For Vercel (Frontend) + Render (Backend):
+
+- **Vercel**: Connect your GitHub repo, set build command to `npm run build`, publish directory to `client/dist`.
+- **Render**: Connect repo, set build command to `npm install && npm --prefix server install`, start command to `npm --prefix server start`.
+
+Ensure CORS is configured correctly in production by setting `CLIENT_URL` to your frontend's deployed URL.
+
+## 18. Summary
 
 This project is not just a UI clone. It is a complete commerce workflow with:
 

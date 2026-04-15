@@ -1075,57 +1075,84 @@ Documentation generated for this repository:
 
 ## 17. Deployment
 
-Since you have deployed the project, here are general steps for deploying a full-stack application like this:
+This project has been deployed with the following configuration:
 
-### Frontend Deployment
+- **Frontend**: Deployed on Vercel
+- **Backend**: Deployed on Render
+- **Database**: Hosted on Railway (MySQL)
 
-The frontend is built with Vite and can be deployed as static files.
+### Frontend Deployment (Vercel)
 
-1. Build the frontend:
+The frontend is built with Vite and deployed as static files on Vercel.
+
+1. Build the frontend locally (optional, as Vercel can build automatically):
    ```bash
    npm run build
    ```
-   This creates a `dist` folder in the `client` directory.
 
-2. Deploy the `client/dist` folder to a static hosting service like:
-   - Vercel
-   - Netlify
-   - GitHub Pages
-   - AWS S3 + CloudFront
+2. Connect your GitHub repository to Vercel.
 
-3. Update the `VITE_API_BASE_URL` in the client environment to point to your deployed backend.
+3. Configure the build settings:
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `client/dist`
+   - **Root Directory**: `./client` (or adjust if needed)
 
-### Backend Deployment
+4. Set environment variables in Vercel:
+   - `VITE_API_BASE_URL`: Set to your Render backend URL (e.g., `https://your-app.onrender.com/api`)
 
-The backend is an Express.js application.
+### Backend Deployment (Render)
 
-1. Ensure your production environment has Node.js installed.
+The backend is an Express.js application deployed on Render.
 
-2. Set up environment variables in your deployment platform (similar to `.env` but using platform-specific config).
+1. Connect your GitHub repository to Render.
 
-3. Deploy to a platform that supports Node.js:
-   - Heroku
-   - Render
-   - Railway
-   - DigitalOcean App Platform
-   - AWS EC2/EB
+2. Create a new Web Service.
 
-4. For the database, use a cloud MySQL service like:
-   - PlanetScale
-   - AWS RDS
-   - Google Cloud SQL
-   - Azure Database for MySQL
+3. Configure the service:
+   - **Runtime**: Node.js
+   - **Build Command**: `npm install && npm --prefix server install`
+   - **Start Command**: `npm --prefix server start`
+   - **Root Directory**: `./server` (or adjust if needed)
 
-5. Run database migrations and seeders in production if needed.
+4. Set environment variables in Render (based on your `.env` file):
+   - `PORT`: Usually set automatically by Render
+   - `CLIENT_URL`: Set to your Vercel frontend URL (e.g., `https://your-app.vercel.app`)
+   - `DB_HOST`: Your Railway database host
+   - `DB_PORT`: Your Railway database port (usually 3306)
+   - `DB_USER`: Your Railway database username
+   - `DB_PASSWORD`: Your Railway database password
+   - `DB_NAME`: Your Railway database name
+   - `JWT_SECRET`: A secure secret for JWT
+   - `DEMO_USER_EMAIL`: demo@flipkartclone.dev
+   - `DEMO_USER_PASSWORD`: password123
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: For email notifications (optional)
 
-### Example Deployment Configuration
+### Database Setup (Railway)
 
-For Vercel (Frontend) + Render (Backend):
+The database is hosted on Railway's MySQL service.
 
-- **Vercel**: Connect your GitHub repo, set build command to `npm run build`, publish directory to `client/dist`.
-- **Render**: Connect repo, set build command to `npm install && npm --prefix server install`, start command to `npm --prefix server start`.
+1. Create a MySQL database on Railway.
 
-Ensure CORS is configured correctly in production by setting `CLIENT_URL` to your frontend's deployed URL.
+2. Note down the connection details (host, port, username, password, database name).
+
+3. Run database migrations and seeders after deployment:
+   - Connect to your Railway database using a MySQL client or command line.
+   - Run the schema setup using the provided scripts or Sequelize migrations.
+
+   Alternatively, you can run migrations programmatically if your backend has access.
+
+### Post-Deployment Steps
+
+1. Update CORS settings: Ensure `CLIENT_URL` in the backend points to the Vercel URL.
+
+2. Test the deployed application:
+   - Frontend should load on Vercel.
+   - API calls should work between frontend and backend.
+   - Database connections should be established.
+
+3. Monitor logs on Vercel and Render for any issues.
+
+4. If using email notifications, configure SMTP settings in Render.
 
 ## 18. Summary
 
